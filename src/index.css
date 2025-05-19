@@ -1,11 +1,15 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Nanum+Gothic+Coding:wght@400;700&display=swap');
 
+@import "tailwindcss";
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
 
 @tailwind utilities;
 
+@font-face {
+  font-family: "Bungee", sans-serif;
+}
 
 :root {
   --radius: 0.625rem;

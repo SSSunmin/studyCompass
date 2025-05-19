@@ -23,7 +23,7 @@ const Stopwatch: React.FC = () => {
     const hours = Math.floor(time / 3600000);
     const minutes = Math.floor((time % 3600000) / 60000);
     const seconds = Math.floor((time % 60000) / 1000);
-    const milliseconds = Math.floor((time % 1000) / 10);
+    // const milliseconds = Math.floor((time % 1000) / 10);
 
     const startAndPause = (): void => {
         setIsRunning(!isRunning);
@@ -35,29 +35,48 @@ const Stopwatch: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center h-[calc(100vh-60px)] bg-gray-900 text-white">
-            <h1 className="text-4xl font-bold mb-[10px]">오늘의 공부 시간</h1>
-            <div className="text-6xl font-mono bg-gray-800 py-6 px-12 rounded-lg shadow-lg">
-                {String(hours).padStart(2, '0')}:
-                {String(minutes).padStart(2, '0')}:
-                {String(seconds).padStart(2, '0')}:
-                {String(milliseconds).padStart(2, '0')}
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-60px)] bg-[#F8F9FB] text-white">
+           <img className={"w-[230px] mb-[45px]"} src={'/stopwatch.png'} alt="Stopwatch" />
+            <div className="flex gap-[10px] font-['Bungee'] text-6xl p-[10px]  text-[#4434E2]">
+                <div >
+                    <p className={'text-center text-[16px] text-[#9291A5]'}>hours</p>
+                    <p>{String(hours).padStart(2, '0')}</p>
+                </div>
+                <div><p className={'text-[16px] text-transparent'}>d</p><p>:</p></div>
+                <div >
+                    <p className={'text-center text-[16px] text-[#9291A5]'}>Minutes</p>
+                    <p>{String(minutes).padStart(2, '0')}</p>
+                </div>
+                <div><p className={'text-[16px] text-transparent'}>d</p><p>:</p></div>
+                <div >
+                    <p className={'text-center text-[16px] text-[#9291A5]'}>seconds</p>
+                    <p>{String(seconds).padStart(2, '0')}</p>
+                </div>
+
+
+
+                {/*{String(milliseconds).padStart(2, '0')}*/}
             </div>
             <div className="flex space-x-4 mt-8">
-                <button
+                {!isRunning ? <button
                     onClick={startAndPause}
-                    className={`px-6 py-3 rounded-lg font-semibold ${
-                        isRunning ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
-                    } transition duration-300`}
+                    className={`w-[160px] h-[60px]  rounded-full font-semibold bg-[#4434E2] hover:bg-[#3025A0] transition duration-300`}
                 >
-                    {isRunning ? '일시정지' : '시작'}
-                </button>
-                <button
+                    시작
+                </button>:<>
+                    <button
+                        onClick={startAndPause}
+                        className="w-[160px] h-[60px] rounded-full font-semibold bg-red-500 hover:bg-red-600 transition duration-300"
+                    >
+                        일시정지
+                    </button>
+                    <button
                     onClick={reset}
-                    className="px-6 py-3 rounded-lg font-semibold bg-gray-500 hover:bg-gray-600 transition duration-300"
+                    className="w-[160px] h-[60px] rounded-full font-semibold bg-gray-500 hover:bg-gray-600 transition duration-300"
                 >
                     정지
-                </button>
+                </button></>}
+
             </div>
         </div>
     );
