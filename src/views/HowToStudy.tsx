@@ -1,5 +1,6 @@
 import StudyPost from "@/views/how-to-study/StudyPost.tsx";
 import {useNavigate} from "react-router-dom";
+import Card from "@/components/Card.tsx";
 
 interface StudyPost {
     id: number;
@@ -24,52 +25,35 @@ const samplePosts: StudyPost[] = [
         imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFDMWKyL4Kg84gHdCWAnn_0Ttwm_RjwJ6v2w&s',
         date: '2024-03-14'
     },
+    {
+        id: 3,
+        title: 'Typescript 어렵지 않아요',
+        content: 'Typescript의 고급 타입 사용법과 제네릭 활용 방법을 공부했습니다. 인터페이스와 타입 별칭의 차이점을 이해하고 실제 프로젝트에 적용해보는 시간을 가졌습니다.',
+        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFDMWKyL4Kg84gHdCWAnn_0Ttwm_RjwJ6v2w&s',
+        date: '2024-03-14'
+    },
     // 추가 샘플 데이터...
 ];
 
-const StudyPostCard: React.FC<{ post: StudyPost }> = ({ post }) => {
-    return (
-        <div className="flex flex-col bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-            <img
-                src={post.imageUrl}
-                alt={post.title}
-                className="w-full h-48 object-cover aspect-square"
-            />
-            <div className="p-4 flex flex-col flex-1">
-                <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-lg font-semibold truncate flex-1 mr-2">
-                        {post.title}
-                    </h3>
-                    <span className="text-sm text-gray-500">{post.date}</span>
-                </div>
-                <p className="text-gray-600 line-clamp-3 flex-1">
-                    {post.content}
-                </p>
-                <button className="mt-4 self-end px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors cursor-pointer">
-                    자세히 보기
-                </button>
-            </div>
-        </div>
-    );
-};
 const HowToStudy = () => {
     const navigate = useNavigate();
     return (
-        <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">공부 방법 게시판</h1>
-            <div className={'w-full flex justify-end'}>
+        <div className=" ml-auto mr-auto mt-[76px] px-[361px]">
+            <div className={'w-full mb-[16px]'}>
                 <button
                     onClick={() => navigate('/how-to-study/create')}
-
-                    className="bg-blue-500 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition-colors "
+                    className="flex gap-[10px] bg-[#646371] text-white p-[10px] cursor-pointer  rounded-[12px] ml-auto"
                 >
-                    새 글 작성
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <path d="M14.2999 19.5516H20.2999M4.69995 19.5516L9.06594 18.6718C9.29771 18.6251 9.51053 18.511 9.67767 18.3438L19.4513 8.56474C19.9199 8.09588 19.9196 7.33589 19.4506 6.86743L17.3802 4.79936C16.9114 4.33109 16.1518 4.33141 15.6834 4.80007L5.90871 14.5801C5.7419 14.747 5.628 14.9594 5.58125 15.1907L4.69995 19.5516Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    글쓰기
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="w-full grid grid-cols-3 justify-evenly">
                 {samplePosts.map((post) => (
-                    <StudyPostCard key={post.id} post={post} />
+                    <Card key={post.id} post={post} />
                 ))}
             </div>
         </div>

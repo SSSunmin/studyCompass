@@ -19,7 +19,7 @@ const Login = () => {
                     type="password"
                     placeholder="비밀번호를 입력해주세요"
                 />
-                <Button className={"ml-auto"} >로그인</Button>
+                <Button className={"w-full bg-[#4434E2]"} >로그인</Button>
             </form>
         </section>
 

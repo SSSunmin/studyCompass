@@ -14,7 +14,7 @@ import {useLocation} from "react-router-dom";
 const Header = () => {
     const { openModal } = useModal();
     const location = useLocation();
-    console.log(location);
+
     const handleOpenSignUpModal = () => {
         openModal(<SignUp/>);
     };

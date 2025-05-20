@@ -26,7 +26,7 @@ const samplePosts: StudyPost[] = [
         date: '2024-03-14'
     },
     {
-        id: 2,
+        id: 3,
         title: 'Typescript 타입 시스템 마스터',
         content: 'Typescript의 고급 타입 사용법과 제네릭 활용 방법을 공부했습니다. 인터페이스와 타입 별칭의 차이점을 이해하고 실제 프로젝트에 적용해보는 시간을 가졌습니다.',
         imageUrl: 'https://health.chosun.com/site/data/img_dir/2023/07/17/2023071701753_0.jpg',

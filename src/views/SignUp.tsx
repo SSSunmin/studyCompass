@@ -9,6 +9,17 @@ const SignUp = () => {
             <form className={"flex flex-col items-start gap-[12px]"}>
 
                 <LabelInput
+                    label="이메일"
+                    id={"이메일"}
+                    type="email"
+                    placeholder="이메일을 입력해주세요"
+                />
+                <LabelInput
+                    label="닉네임"
+                    id={"닉네임"}
+                    type="text"
+                    placeholder="닉네임을 입력해주세요"
+                /><LabelInput
                     label="아이디"
                     id={"아이디"}
                     type="text"
@@ -26,7 +37,7 @@ const SignUp = () => {
                     type="password"
                     placeholder="다시 한번 비밀번호를 입력해주세요"
                 />
-                <Button className={"ml-auto"} >가입</Button>
+                <Button className={"w-full bg-[#4434E2]"} >가입</Button>
             </form>
         </section>
 
