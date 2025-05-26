@@ -1,10 +1,15 @@
 import React, {useState} from 'react';
 import {StudyPost} from "@/views/MemoryStudy.tsx";
+import {useNavigate} from "react-router-dom";
 
 const Card: React.FC<{ post: StudyPost }> = ({ post }) => {
     const [showInfo, setShowInfo] = useState(false);
+    const navigate = useNavigate()
+    const showDetail =()=>{
+        navigate(`/detail/${post.id}`);
+    }
     return (
-        <div onMouseEnter={()=>setShowInfo(true)} onMouseLeave={()=>setShowInfo(false)} className="w-[380px] h-[380px] relative  cursor-pointer flex flex-col bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+        <div onClick={showDetail} onMouseEnter={()=>setShowInfo(true)} onMouseLeave={()=>setShowInfo(false)} className="w-[380px] h-[380px] relative  cursor-pointer flex flex-col bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
             <img
                 src={post.imageUrl}
                 alt={post.title}

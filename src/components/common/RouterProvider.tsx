@@ -6,6 +6,7 @@ import HowToStudy from "@/views/HowToStudy.tsx";
 import StudyPost from "@/views/how-to-study/StudyPost.tsx";
 import MemoryPost from "@/views/memory-study/MemoryPost.tsx";
 import Header from "@/components/Header.tsx";
+import DetailPage from "@/views/DetailPage.tsx";
 
 const RouterProvider = () => {
     return (
@@ -18,6 +19,7 @@ const RouterProvider = () => {
               <Route path="/how-to-study" element={<HowToStudy/>}/>
               <Route path="/how-to-study/create" element={<StudyPost />} />
               <Route path="/my-page" element={<MyPage/>}/>
+              <Route path="/detail/:id" element={<DetailPage />} />
           </Routes>
       </BrowserRouter>
     );
