@@ -38,7 +38,7 @@ const MemoryPost: React.FC = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <div className="max-w-2xl h-[calc(100vh-60px)] mx-auto mt-[60px] p-6 bg-white  shadow-md">
             <h2 className="text-2xl font-bold mb-6 text-center">공부 인증 게시글 작성</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -85,7 +85,7 @@ const MemoryPost: React.FC = () => {
                         name="content"
                         value={post.content}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full h-[250px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         rows={6}
                         required
                     ></textarea>

@@ -53,7 +53,7 @@ const MemoryStudy = () => {
 
 
 
-            <div className="w-full grid grid-cols-3 justify-evenly">
+            <div className="w-full flex flex-wrap  gap-[12px]">
                 {samplePosts.map((post) => (
                     <Card key={post.id} post={post} />
                 ))}
