@@ -1,42 +1,81 @@
-import StudyPost from "@/views/how-to-study/StudyPost.tsx";
 import {useNavigate} from "react-router-dom";
 import Card from "@/components/Card.tsx";
+import {useEffect, useState} from "react";
+import {Get} from "@/axios.ts";
+import Pagination from "@/components/Pagination.tsx";
 
-interface StudyPost {
-    id: number;
-    title: string;
-    content: string;
-    imageUrl: string;
-    date: string;
+export interface Pagination {
+    "page": number,
+    "size": number,
+    "totalElements": number,
+    "totalPage": number,
+    "currentElements": number,
+    "currentPage": number,
+    "orderBy": string
+    "sortBy": string,
+    "limit": number,
+}
+export interface HowtoStudy {
+    pagination:Pagination
+    value:HowToStudyData[]
 }
 
-const samplePosts: StudyPost[] = [
-    {
-        id: 1,
-        title: 'React 공부 이렇게만 하면 된다!',
-        content: '오늘은 React 컴포넌트 구조와 Props 사용법에 대해 깊이 있게 공부했습니다. 상태 관리와 라이프사이클에 대한 이해를 높이는 데 집중했으며, 여러 실습 예제를 통해 개념을 확실히 다졌습니다.',
-        imageUrl: 'https://media.istockphoto.com/id/104355461/ko/%EC%82%AC%EC%A7%84/%EC%A0%84%EB%A9%B4-%EC%98%81%EA%B5%AD-%EC%87%BC%ED%8A%B8%ED%97%A4%EC%96%B4%EA%B3%A0%EC%96%91%EC%9D%B4-7-%EA%B0%9C%EC%9B%94-%ED%9C%B4%EC%8B%9D.jpg?s=612x612&w=0&k=20&c=4OsJ6wig6RNW7TKkLUvyrYKgz1fFRKSWuN0oDgpQ2R0=',
-        date: '2024-03-15'
+export interface HowToStudyData {
+    "regDt": string,
+    "updDt": string,
+    "regUser": {
+        "userSid": number,
+        "loginId":  string,
+        "userNm":  string,
     },
-    {
-        id: 2,
-        title: 'Typescript 어렵지 않아요',
-        content: 'Typescript의 고급 타입 사용법과 제네릭 활용 방법을 공부했습니다. 인터페이스와 타입 별칭의 차이점을 이해하고 실제 프로젝트에 적용해보는 시간을 가졌습니다.',
-        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFDMWKyL4Kg84gHdCWAnn_0Ttwm_RjwJ6v2w&s',
-        date: '2024-03-14'
+    "updUser": {
+        "userSid": number,
+        "loginId":  string,
+        "userNm":  string,
     },
-    {
-        id: 3,
-        title: 'Typescript 어렵지 않아요',
-        content: 'Typescript의 고급 타입 사용법과 제네릭 활용 방법을 공부했습니다. 인터페이스와 타입 별칭의 차이점을 이해하고 실제 프로젝트에 적용해보는 시간을 가졌습니다.',
-        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFDMWKyL4Kg84gHdCWAnn_0Ttwm_RjwJ6v2w&s',
-        date: '2024-03-14'
-    },
-    // 추가 샘플 데이터...
-];
+    "knowHowSid": number,
+    "userSid": number,
+    "title": string,
+    "content": null,
+    "fileList": [
+        {
+            "regDt": string,
+            "updDt":string,
+            "regUser": {
+                "userSid": number,
+                "loginId": string,
+                "userNm": string
+            },
+            "updUser": {
+                "userSid": number,
+                "loginId":string,
+                "userNm": string
+            },
+            "knowhowFileSid": number,
+            "knowhowSid": number,
+            "originFileName": string,
+            "filePath": string,
+            "srcPath": string
+        }
+    ]
+}
 
 const HowToStudy = () => {
+    const [page, setPage] = useState(0);
+    const [list , setList] = useState<HowToStudyData[]>([]);
+    const [totalPage, setTotalPage] = useState(0);
     const navigate = useNavigate();
+    const getMemoryStudyList = async ()=>{
+            const result = await Get<{ data: { data:HowtoStudy } }>(`/v1/study/knowhow?size=10&page=${page+1}&sort=regDt,desc`);
+        setList(result.data.data.value)
+        setTotalPage(result.data.data.pagination.totalPage)
+        console.log(result);
+    }
+
+    useEffect(() => {
+        getMemoryStudyList()
+    }, []);
+
     return (
         <div className=" ml-auto mr-auto mt-[76px] px-[361px]">
             <div className={'w-full mb-[16px]'}>
@@ -52,9 +91,18 @@ const HowToStudy = () => {
             </div>
 
             <div className="w-full flex flex-wrap  gap-[12px]">
-                {samplePosts.map((post) => (
-                    <Card key={post.id} post={post} />
+                {list.map((post) => (
+                    <Card key={post.knowHowSid} howto={post} />
                 ))}
+            </div>
+            <div className={'mt-auto'}>
+                {
+                    list.length > 0 &&  <Pagination
+                        currentPage={page}
+                        totalPages={totalPage}
+                        onPageChange={(page) => setPage(page)}
+                    />
+                }
             </div>
         </div>
     );

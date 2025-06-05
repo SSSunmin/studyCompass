@@ -1,4 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import {Post} from "@/axios.ts";
+import {useNavigate} from "react-router-dom";
 
 interface StudyPost {
     title: string;
@@ -13,6 +15,7 @@ const MemoryPost: React.FC = () => {
         image: null,
     });
     const [preview, setPreview] = useState<string>('');
+    const navigate = useNavigate();
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -31,14 +34,40 @@ const MemoryPost: React.FC = () => {
         }
     };
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // 여기에 제출 로직 추가
-        console.log(post);
+        const form = new FormData();
+        form.append(
+            "certification",
+            new Blob(
+                [
+                    JSON.stringify({
+                        title:post.title,
+                        content:post.content,
+                    }),
+                ],
+                { type: "application/json" }
+            )
+        );
+        if (post.image) {
+            form.append("file", post.image);
+        }
+        try {
+            await Post("/v1/study/certification", form, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+            navigate('/memory-study')
+        } catch (err) {
+            if(err instanceof Error){
+                alert("등록에 실패했습니다.");
+            }
+        }
+
     };
 
     return (
-        <div className="max-w-2xl h-[calc(100vh-60px)] mx-auto mt-[60px] p-6 bg-white  shadow-md">
+        <div className="max-w-2xl min-h-[calc(100vh-60px)]  mx-auto mt-[60px] p-6 bg-white  shadow-md">
             <h2 className="text-2xl font-bold mb-6 text-center">공부 인증 게시글 작성</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">

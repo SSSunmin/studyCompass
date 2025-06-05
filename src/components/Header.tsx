@@ -10,10 +10,20 @@ import SignUp from "@/views/SignUp.tsx";
 import Login from "@/views/Login.tsx";
 import {BoardIcon, CheckListIcon, StopWatchIcon} from "@/components/Icons.tsx";
 import {useLocation} from "react-router-dom";
+import {Get} from "@/axios.ts";
+import {useEffect, useState} from "react";
 
 const Header = () => {
     const { openModal } = useModal();
     const location = useLocation();
+    const [isLogin, setIsLogin] = useState(false);
+    const token = window.localStorage.getItem('accessToken');
+
+    useEffect(() => {
+        if(token){
+            setIsLogin(true);
+        }
+    });
 
     const handleOpenSignUpModal = () => {
         openModal(<SignUp/>);
@@ -22,6 +32,19 @@ const Header = () => {
     const handleOpenLoginModal = () => {
         openModal(<Login/>);
     };
+
+    const handleLogout = async () => {
+        try{
+            await Get('/v1/auth/logout')
+            window.localStorage.removeItem("accessToken");
+            window.localStorage.removeItem("refreshToken");
+            setIsLogin(false);
+        }catch (err){
+            if(err instanceof Error){
+                alert('서버 문제로 로그아웃 되지 않았습니다.')
+            }
+        }
+    }
     return (
         <nav className={"fixed w-full top-0 left-0 z-50 bg-white"}>
             <ol className={"flex h-[60px] shadow-md items-center justify-between px-[361px]"}>
@@ -41,9 +64,11 @@ const Header = () => {
                     <DropdownMenuTrigger><div className={'bg-gray-400 rounded-full p-[4px] cursor-pointer'}><User color={'white'}/></div></DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuItem className={"cursor-pointer"}><a href={'/my-page'}>마이페이지</a></DropdownMenuItem>
-                        <DropdownMenuItem className={"cursor-pointer"} onClick={handleOpenLoginModal}>로그인</DropdownMenuItem>
-                        <DropdownMenuItem className={"cursor-pointer"} onClick={handleOpenSignUpModal}>회원가입</DropdownMenuItem>
-                        <DropdownMenuItem className={"cursor-pointer"}>로그아웃</DropdownMenuItem>
+                        {!isLogin && <><DropdownMenuItem className={"cursor-pointer"}
+                                             onClick={handleOpenLoginModal}>로그인</DropdownMenuItem>
+                            <DropdownMenuItem className={"cursor-pointer"}
+                                              onClick={handleOpenSignUpModal}>회원가입</DropdownMenuItem></>}
+                        {isLogin && <DropdownMenuItem className={"cursor-pointer"} onClick={handleLogout}>로그아웃</DropdownMenuItem>}
                     </DropdownMenuContent>
                 </DropdownMenu>
             </ol>
