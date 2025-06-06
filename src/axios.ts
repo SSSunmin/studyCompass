@@ -4,7 +4,7 @@ import {clearToken, getRefreshToken, getToken, setAccessToken} from "./util/comm
 const baseURL =
     import.meta.env.MODE === 'development'
         ? '/api'
-        : import.meta.env.BASE_URL;
+        : 'http://ec2-3-39-191-102.ap-northeast-2.compute.amazonaws.com:8080';
 
 export const client = axios.create({
     baseURL
