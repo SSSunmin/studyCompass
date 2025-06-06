@@ -14,13 +14,21 @@ export const client = axios.create({
 const refreshAccessToken = async () => {
     const refreshToken = getRefreshToken();
     if (!refreshToken) throw new Error('No refresh token');
-    // refresh 요청에는 interceptors가 적용되지 않도록 별도 인스턴스 사용
-    const refreshClient = axios.create();
-    const res = await refreshClient.post('/v1/auth/refresh', {refreshToken})
-    setAccessToken(res.data.accessToken,'accessToken');
-    setAccessToken(res.data.refreshToken,'refreshToken');
 
-    return res.data.accessToken;
+    const refreshClient = axios.create();
+    try{
+        const res = await refreshClient.post('/v1/auth/refresh', {refreshToken})
+        setAccessToken(res.data.accessToken,'accessToken');
+        setAccessToken(res.data.refreshToken,'refreshToken');
+
+        return res.data.accessToken;
+    }catch(err){
+        if(err instanceof Error){
+            window.localStorage.removeItem('accessToken');
+            window.localStorage.removeItem('refreshToken');
+        }
+    }
+
 };
 
 // 응답 인터셉터 (401 처리, 1회만 재시도)

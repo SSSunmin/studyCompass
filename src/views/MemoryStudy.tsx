@@ -1,4 +1,3 @@
-import StudyPost from "@/views/how-to-study/StudyPost.tsx";
 import {useNavigate} from "react-router-dom";
 import Card from "@/components/Card.tsx";
 import {useEffect, useState} from "react";
@@ -38,7 +37,7 @@ export interface StudyPostData {
     "boardSid": number,
     "userSid": number,
     "title": string,
-    "content": null,
+    "content": string,
     "fileList": [
         {
             "regDt": string,
@@ -62,31 +61,6 @@ export interface StudyPostData {
     ]
 }
 
-// const samplePosts: StudyPost[] = [
-//     {
-//         id: 1,
-//         title: 'React 공부 5시간 완료!',
-//         content: '오늘은 React 컴포넌트 구조와 Props 사용법에 대해 깊이 있게 공부했습니다. 상태 관리와 라이프사이클에 대한 이해를 높이는 데 집중했으며, 여러 실습 예제를 통해 개념을 확실히 다졌습니다.',
-//         imageUrl: 'https://newsimg.hankookilbo.com/2016/04/13/201604131460701467_1.jpg',
-//         date: '2024-03-15'
-//     },
-//     {
-//         id: 2,
-//         title: 'Typescript 타입 시스템 마스터',
-//         content: 'Typescript의 고급 타입 사용법과 제네릭 활용 방법을 공부했습니다. 인터페이스와 타입 별칭의 차이점을 이해하고 실제 프로젝트에 적용해보는 시간을 가졌습니다.',
-//         imageUrl: 'https://health.chosun.com/site/data/img_dir/2023/07/17/2023071701753_0.jpg',
-//         date: '2024-03-14'
-//     },
-//     {
-//         id: 3,
-//         title: 'Typescript 타입 시스템 마스터',
-//         content: 'Typescript의 고급 타입 사용법과 제네릭 활용 방법을 공부했습니다. 인터페이스와 타입 별칭의 차이점을 이해하고 실제 프로젝트에 적용해보는 시간을 가졌습니다.',
-//         imageUrl: 'https://health.chosun.com/site/data/img_dir/2023/07/17/2023071701753_0.jpg',
-//         date: '2024-03-14'
-//     },
-//     // 추가 샘플 데이터...
-// ];
-
 const MemoryStudy = () => {
     const [page, setPage] = useState(0);
     const [list , setList] = useState<StudyPostData[]>([]);
@@ -94,7 +68,6 @@ const MemoryStudy = () => {
     const navigate = useNavigate();
     const getMemoryStudyList = async ()=>{
         const result = await Get<{ data: { data:StudyPost } }>(`/v1/study/certification?size=10&page=${page+1}&sort=regDt,desc`);
-        console.log(result);
         setList(result.data.data.value)
         setTotalPage(result.data.data.pagination.totalPage)
     }
